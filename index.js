@@ -54,7 +54,13 @@ app.use("/images", express.static(path.join(__dirname, "/images")));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use(cors());
+var corsOptions = {
+  origin: 'https://picitypeoples.herokuapp.com',
+  optionsSuccessStatus: 200, // For legacy browser support
+  methods: "GET, PUT, POST, DELETE"
+}
+
+app.use(cors(corsOptions));
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
