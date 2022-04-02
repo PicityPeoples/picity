@@ -61,7 +61,10 @@ app.use((req, res, next) => {
   if (req.method === "OPTIONS") {
     res.header(
       "Access-Control-Allow-Methods",
-      "POST, PUT, PATCH, GET, DELETE"
+      "POST",
+      "PUT",
+      "DELETE",
+      "GET"
     )
     return res.status(200).json({})
   }
