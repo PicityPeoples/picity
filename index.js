@@ -131,7 +131,7 @@ app.post("/sendmail", cors(), async (req, res) => {
   //   console.log(err);
   // }
 });
-app.get('/',cors(corsOptions),(req,res)=>{
+app.get('/',cors(corsOptions),(req,res, next)=>{
   res.send("App is running");
 })
 app.listen(process.env.PORT || 5000 , () => {
