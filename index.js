@@ -18,24 +18,6 @@ const multer = require("multer");
 const path = require("path");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const mailgun = require("mailgun-js");
-const DOMAIN = "sandbox9c3d5b46ad5f4e20bc359a158f356f92.mailgun.org";
-const mg = mailgun({
-  apiKey: "4c31c759fe6e23f16f8501c26c0adada-e2e3d8ec-cd60d513",
-  domain: DOMAIN,
-});
-
-dotenv.config();
-
-try {
-  mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true }, () => {
-    console.log("Connected to MONGODB");
-  });
-} catch (err) {
-  console.log(err);
-}
-
-// middleware
 
 app.use(express.json());
 app.use(helmet());
@@ -70,7 +52,28 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use(cors({ origin: "http://localhost:3000", credentials: true }))
+app.use(cors({ origin: "https://pictpeoples.herokuapp.com/", credentials: true }))
+
+
+
+const mailgun = require("mailgun-js");
+const DOMAIN = "sandbox9c3d5b46ad5f4e20bc359a158f356f92.mailgun.org";
+const mg = mailgun({
+  apiKey: "4c31c759fe6e23f16f8501c26c0adada-e2e3d8ec-cd60d513",
+  domain: DOMAIN,
+});
+
+dotenv.config();
+
+try {
+  mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true }, () => {
+    console.log("Connected to MONGODB");
+  });
+} catch (err) {
+  console.log(err);
+}
+
+// middleware
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
