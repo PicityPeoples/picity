@@ -35,31 +35,6 @@ try {
   console.log(err);
 }
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested, Content-Type, Accept Authorization"
-  );
-  if (req.method === "OPTIONS") {
-    res.header("Access-Control-Allow-Methods", "POST, PUT, PATCH, GET, DELETE");
-    return res.status(200).json({});
-  }
-  next();
-});
-
-// app.use(cors({ origin: "https://pictpeoples.herokuapp.com/", credentials: true }))
-var whitelist = ["https://pictpeoples.herokuapp.com/"];
-var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-};
-
 app.use(express.json());
 app.use(helmet());
 app.use(morgan("common"));
@@ -76,6 +51,29 @@ app.use("/api/clubupdates", clubsupdateRoute);
 app.use("/images", express.static(path.join(__dirname, "/images")));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*")
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested, Content-Type, Accept Authorization"
+  )
+  if (req.method === "OPTIONS") {
+    res.header(
+      "Access-Control-Allow-Methods",
+      "POST, PUT, PATCH, GET, DELETE"
+    )
+    return res.status(200).json({})
+  }
+  next()
+})
+
+app.use(cors({ origin: "https://pictpeoples.herokuapp.com/", credentials: true }))
+
+
+
+
+// middleware
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -111,13 +109,13 @@ app.post("/sendmail", cors(), async (req, res) => {
     subject: "Email Verfication",
     text: `${text}`,
   };
-  try {
+  try{
     mg.messages().send(data, function (error, body) {
       console.log(error);
       console.log(data);
-      console.log("Sent successfully");
+      console.log("Sent successfully")
     });
-  } catch (err) {
+  }catch(err){
     console.log(err);
   }
 
@@ -142,9 +140,9 @@ app.post("/sendmail", cors(), async (req, res) => {
   //   console.log(err);
   // }
 });
-app.get("/", cors(corsOptions), (req, res, next) => {
+app.get('/',(req,res)=>{
   res.send("App is running");
-});
-app.listen(process.env.PORT || 5000, () => {
+})
+app.listen(process.env.PORT || 5000 , () => {
   console.log("Backend is running!");
 });
