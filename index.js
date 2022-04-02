@@ -35,7 +35,19 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use(cors({ origin: "https://pictpeoples.herokuapp.com/", credentials: true }))
+// app.use(cors({ origin: "https://pictpeoples.herokuapp.com/", credentials: true }))
+var whitelist = ['https://pictpeoples.herokuapp.com/']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+
+
 app.use(express.json());
 app.use(helmet());
 app.use(morgan("common"));
@@ -119,7 +131,7 @@ app.post("/sendmail", cors(), async (req, res) => {
   //   console.log(err);
   // }
 });
-app.get('/',(req,res)=>{
+app.get('/',cors(corsOptions),(req,res)=>{
   res.send("App is running");
 })
 app.listen(process.env.PORT || 5000 , () => {
