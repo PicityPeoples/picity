@@ -54,7 +54,6 @@ app.use("/images", express.static(path.join(__dirname, "/images")));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use(cors());
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*")
   res.header(
@@ -70,6 +69,8 @@ app.use((req, res, next) => {
   }
   next()
 })
+
+app.use(cors({ origin: "http://localhost:3000", credentials: true }))
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
