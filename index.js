@@ -19,23 +19,6 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-app.use(express.json());
-app.use(helmet());
-app.use(morgan("common"));
-app.use("/api/users", userRoute);
-app.use("/api/auth", authRoute);
-app.use("/api/posts", postRoute);
-app.use("/api/projects", projectRoute);
-app.use("/api/experience", experienceRoute);
-app.use("/api/certificates", certificateRoute);
-app.use("/api/conversations", conversationRoute);
-app.use("/api/opportunity", opportunityRoute);
-app.use("/api/messages", messageRoute);
-app.use("/api/clubupdates", clubsupdateRoute);
-app.use("/images", express.static(path.join(__dirname, "/images")));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*")
   res.header(
@@ -53,27 +36,23 @@ app.use((req, res, next) => {
 })
 
 app.use(cors({ origin: "https://pictpeoples.herokuapp.com/", credentials: true }))
+app.use(express.json());
+app.use(helmet());
+app.use(morgan("common"));
+app.use("/api/users", userRoute);
+app.use("/api/auth", authRoute);
+app.use("/api/posts", postRoute);
+app.use("/api/projects", projectRoute);
+app.use("/api/experience", experienceRoute);
+app.use("/api/certificates", certificateRoute);
+app.use("/api/conversations", conversationRoute);
+app.use("/api/opportunity", opportunityRoute);
+app.use("/api/messages", messageRoute);
+app.use("/api/clubupdates", clubsupdateRoute);
+app.use("/images", express.static(path.join(__dirname, "/images")));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-
-
-const mailgun = require("mailgun-js");
-const DOMAIN = "sandbox9c3d5b46ad5f4e20bc359a158f356f92.mailgun.org";
-const mg = mailgun({
-  apiKey: "4c31c759fe6e23f16f8501c26c0adada-e2e3d8ec-cd60d513",
-  domain: DOMAIN,
-});
-
-dotenv.config();
-
-try {
-  mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true }, () => {
-    console.log("Connected to MONGODB");
-  });
-} catch (err) {
-  console.log(err);
-}
-
-// middleware
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
