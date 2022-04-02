@@ -68,7 +68,7 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use(cors({ origin: "https://pictpeoples.herokuapp.com/", credentials: true }))
+app.use(cors({ origin: "https://pictpeoples.herokuapp.com/auth/login", credentials: true }))
 
 
 
