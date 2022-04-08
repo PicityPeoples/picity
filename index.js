@@ -73,7 +73,7 @@ app.use((req, res, next) => {
 })
 
 // app.use(cors({ origin: "https://pictpeoples.herokuapp.com", credentials: true }))
-jQuery.support.cors = true;
+// jQuery.support.cors = true;
 
 
 
