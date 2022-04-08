@@ -53,24 +53,24 @@ app.use("/images", express.static(path.join(__dirname, "/images")));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*")
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested, Content-Type, Accept Authorization"
-    )
-  if (req.method === "OPTIONS") {
-    res.header(
-      "Access-Control-Allow-Methods",
-      "POST",
-      "PUT",
-      "DELETE",
-      "GET"
-      )
-      return res.status(200).json({})
-  }
-  next()
-})
+// app.use((req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", "*")
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested, Content-Type, Accept Authorization"
+//     )
+//   if (req.method === "OPTIONS") {
+//     res.header(
+//       "Access-Control-Allow-Methods",
+//       "POST",
+//       "PUT",
+//       "DELETE",
+//       "GET"
+//       )
+//       return res.status(200).json({})
+//   }
+//   next()
+// })
 
 // app.use(cors({ origin: "https://pictpeoples.herokuapp.com", credentials: true }))
 // jQuery.support.cors = true;
