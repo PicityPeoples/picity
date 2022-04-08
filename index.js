@@ -26,7 +26,6 @@ const mg = mailgun({
 });
 
 dotenv.config();
-jQuery.support.cors = true;
 
 
 try {
@@ -59,7 +58,7 @@ app.use((req, res, next) => {
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested, Content-Type, Accept Authorization"
-  )
+    )
   if (req.method === "OPTIONS") {
     res.header(
       "Access-Control-Allow-Methods",
@@ -67,13 +66,14 @@ app.use((req, res, next) => {
       "PUT",
       "DELETE",
       "GET"
-    )
-    return res.status(200).json({})
+      )
+      return res.status(200).json({})
   }
   next()
 })
 
-// app.use(cors({ origin: "https://pictpeoples.herokuapp.com", credentials: false }))
+app.use(cors({ origin: "https://pictpeoples.herokuapp.com", credentials: true }))
+jQuery.support.cors = true;
 
 
 
@@ -97,53 +97,26 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
   }
 });
 
-app.post("/sendmail", cors(), async (req, res) => {
-  const { text, mail } = req.body;
-  // const transport = nodemailer.createTransport({
-  //   host: process.env.MAIL_HOST,
-  //   port: process.env.MAIL_PORT,
-  //   auth: {
-  //     user: process.env.MAIL_USER,
-  //     pass: process.env.MAIL_PASS,
-  //   },
-  // });
-  const data = {
-    from: "picitypicity7@gmail.com",
-    to: mail,
-    subject: "Email Verfication",
-    text: `${text}`,
-  };
-  try{
-    mg.messages().send(data, function (error, body) {
-      console.log(error);
-      console.log(data);
-      console.log("Sent successfully")
-    });
-  }catch(err){
-    console.log(err);
-  }
+// app.post("/sendmail", cors(), async (req, res) => {
+//   const { text, mail } = req.body;
 
-  // const transporter = nodemailer.createTransport({
-  //   host: "smtp.ethereal.email",
-  //   port: 587,
-  //   auth: {
-  //     user: "bertrand.cummerata27@ethereal.email",
-  //     pass: "ZYZ4GkMQR1UNUgs13c",
-  //   },
-  // });
-  // try {
-  //   await transporter.sendMail({
-  //     from: process.env.MAIL_FROM,
-  //     to: mail,
-  //     subject: "Verification OTP",
-  //     html: `${text}`,
-  //     text: `${text}`,
-  //   });
-  //   res.status(200).json("Sent successfully");
-  // } catch (err) {
-  //   console.log(err);
-  // }
-});
+//   const data = {
+//     from: "picitypicity7@gmail.com",
+//     to: mail,
+//     subject: "Email Verfication",
+//     text: `${text}`,
+//   };
+//   try{
+//     mg.messages().send(data, function (error, body) {
+//       console.log(error);
+//       console.log(data);
+//       console.log("Sent successfully")
+//     });
+//   }catch(err){
+//     console.log(err);
+//   }
+
+// });
 app.get('/',(req,res)=>{
   res.send("App is running");
 })
